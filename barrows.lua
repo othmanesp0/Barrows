@@ -1,7 +1,7 @@
 local API = require("api")
 local UTILS = require("utils")
 API.Write_fake_mouse_do(false)
-
+local Wartp = API.GetABs_name1("War's Retreat Teleport")
 
 
 local spaces = {
@@ -19,7 +19,15 @@ local ropeID     = {6711,6708}
 
 
 local deferredSpace = nil
-
+local function war()
+    API.DoAction_Ability_Direct(Wartp, 1, API.OFF_ACT_GeneralInterface_route)
+    API.RandomSleep2(5000, 500, 500)
+    API.DoAction_Object1(0x33,API.OFF_ACT_GeneralObject_route3,{ 114750 },50);
+    API.WaitUntilMovingEnds(20, 10)
+    API.DoAction_Object1(0x39,API.OFF_ACT_GeneralObject_route0,{ 114763 },50);
+    API.WaitUntilMovingEnds(20, 10)
+    API.RandomSleep2(2000, 500, 500)
+end
 
 local function waitForCombatEnd()
     while API.LocalPlayer_IsInCombat_() do
@@ -107,5 +115,8 @@ while (API.Read_LoopyLoop()) do
         processDeferredSpace()
         deferredSpace = nil
         API.printlua("Sequence complete", 1, true)
+    end
+    if API.Invfreecount_() < 5 then
+        war()
     end
 end
