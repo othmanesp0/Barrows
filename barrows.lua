@@ -31,30 +31,32 @@ end
 
 local function waitForCombatEnd()
     while API.LocalPlayer_IsInCombat_() do
-        API.Sleep_tick(5)
+        API.Sleep_tick(3)
     end
 end
 
 local function interactWithSpace(i)
     local space = spaces[i]
     API.DoAction_Object2(0x29, API.OFF_ACT_GeneralObject_route0, { space.id }, 50, space.pos)
-    API.WaitUntilMovingEnds(20, 10)
+    UTILS.countTicks(2)
+    API.WaitUntilMovingEnds()
+    API.RandomSleep2(2000, 500, 500)
     print("looking for chest")
         API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { space.chest }, 15)
-        API.WaitUntilMovingEnds(10, 5)
+        API.WaitUntilMovingEnds(5, 5)
     
     if UTILS.isChooseOptionInterfaceOpen() then
         deferredSpace = i
         print("boss chamber")
             API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { space.stairs }, 15)
-            API.WaitUntilMovingEnds(10, 5)
+            API.WaitUntilMovingEnds(5, 5)
    else
             print("fighting mob")
             API.DoAction_NPC(0x2a,API.OFF_ACT_AttackNPC_route,{ space.npc },15)
             API.RandomSleep2(2000, 500, 500)
             waitForCombatEnd()
             API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { space.stairs }, 15)
-            API.WaitUntilMovingEnds(10, 5)
+            API.WaitUntilMovingEnds(5, 5)
     end
 end
 
@@ -63,11 +65,12 @@ local function processDeferredSpace()
     local space = spaces[i]
 
     API.DoAction_Object2(0x29, API.OFF_ACT_GeneralObject_route0, { space.id }, 50, space.pos)
-    API.WaitUntilMovingEnds(20, 10)
+    UTILS.countTicks(2)
+    API.WaitUntilMovingEnds()
     API.RandomSleep2(2000, 500, 500)
     API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { space.chest }, 15)
-    API.WaitUntilMovingEnds(10, 5)
-    API.RandomSleep2(2000, 500, 500)
+    API.WaitUntilMovingEnds(5, 5)
+    API.RandomSleep2(1000, 500, 500)
     API.DoAction_Interface(0xFFFFFFFF, 0xFFFFFFFF, 0, 1186, 8, -1, API.OFF_ACT_GeneralInterface_Choose_option)
     API.RandomSleep2(1000, 500, 500)  
     API.DoAction_Interface(0xFFFFFFFF, 0xFFFFFFFF, 0, 1188, 8, -1, API.OFF_ACT_GeneralInterface_Choose_option)
@@ -79,27 +82,27 @@ local function processDeferredSpace()
     end
 
     API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { 6774 }, 10)
-    API.WaitUntilMovingEnds(10, 5)
+    API.WaitUntilMovingEnds(5, 5)
 
     API.DoAction_NPC(0x2a,API.OFF_ACT_AttackNPC_route,{ space.npc },15)
     API.RandomSleep2(2000, 500, 500)
     waitForCombatEnd()
     API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { 6775 }, 15)
-    API.WaitUntilMovingEnds(10, 5)
+    API.WaitUntilMovingEnds(5, 5)
     API.DoAction_Interface(0x24, 0xFFFFFFFF, 1, 168, 18, -1, API.OFF_ACT_GeneralInterface_route)
-    API.Sleep_tick(5)
+    API.Sleep_tick(3)
 
     for _, pid in ipairs(portals) do
         API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { pid }, 10)
-        API.WaitUntilMovingEnds(10, 5)
+        API.WaitUntilMovingEnds(5, 5)
         API.RandomSleep2(2000, 500, 500)
     end
 
     API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { 6708 }, 15)
-    API.WaitUntilMovingEnds(10, 5)
+    API.WaitUntilMovingEnds(5, 5)
     API.RandomSleep2(2000, 500, 500)
     API.DoAction_Object1(0x29, API.OFF_ACT_GeneralObject_route0, { space.stairs }, 15)
-    API.WaitUntilMovingEnds(10, 5)
+    API.WaitUntilMovingEnds(5, 5)
     API.RandomSleep2(2000, 500, 500)
 end
 
